@@ -1,4 +1,4 @@
-import app_config, db, waitress
+import app_config, db, waitress, message_handlers
 from flask_restful import Api, Resource, reqparse
 from flask import render_template, jsonify
 
@@ -24,7 +24,10 @@ class Messages(Resource):
 
     def post(self, room_id):
         args = self.reqparse.parse_args()
-        db.store_message(args['nick'], args['content'], room_id)
+        content = args['content']
+        for handler in message_handlers.get_list():
+            content = handler.handle(content)
+        db.store_message(args['nick'], content, room_id)
         return {'message': 'Message received.'}, 201
 
     def get(self, room_id):
