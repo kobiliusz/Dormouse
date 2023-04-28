@@ -1,19 +1,30 @@
 import app_config, db, waitress, message_handlers
 from flask_restful import Api, Resource, reqparse
-from flask import render_template, jsonify
+from flask import render_template
+from sqlalchemy.orm import class_mapper
 
 app = app_config.get_app()
 api = Api(app)
 
 
+def model_to_dict(obj):
+    mapper = class_mapper(obj.__class__)
+    result = {}
+    for column in mapper.columns:
+        name = column.key
+        value = getattr(obj, name)
+        result[name] = value
+    return result
+
+
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("index.html"), 200
 
 
 class Rooms(Resource):
     def get(self):
-        return jsonify(db.get_rooms()), 200
+        return [model_to_dict(room) for room in db.get_rooms()], 200
 
 
 class Messages(Resource):
@@ -31,7 +42,7 @@ class Messages(Resource):
         return {'message': 'Message received.'}, 201
 
     def get(self, room_id):
-        return jsonify(db.get_messages_for_room(room_id)), 200
+        return [model_to_dict(msg) for msg in db.get_messages_for_room(room_id)], 200
 
 
 api.add_resource(Rooms, '/api/rooms')

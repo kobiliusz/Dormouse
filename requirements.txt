@@ -1,2 +1,6 @@
 waitress
-Flask
+flask
+flask_cors
+flask_restful
+flask_sqlalchemy
+sqlalchemy
