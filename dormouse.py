@@ -1,3 +1,5 @@
+import datetime
+
 import app_config, db, waitress, message_handlers
 from flask_restful import Api, Resource, reqparse
 from flask import render_template
@@ -13,6 +15,8 @@ def model_to_dict(obj):
     for column in mapper.columns:
         name = column.key
         value = getattr(obj, name)
+        if isinstance(value, datetime.datetime):
+            value = value.timestamp()
         result[name] = value
     return result
 

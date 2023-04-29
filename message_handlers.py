@@ -24,9 +24,16 @@ class EscapeHandler(AbstractMessageHandler):
         return html.escape(message)
 
 
+class StripHandler(AbstractMessageHandler):
+
+    def handle(self, message):
+        return message.strip()
+
+
 def get_list():
 
     return [
+        StripHandler(),
         EscapeHandler(),
         LinkHandler()
     ]
