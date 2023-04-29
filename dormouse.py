@@ -2,7 +2,7 @@ import datetime
 
 import app_config, db, waitress, message_handlers
 from flask_restful import Api, Resource, reqparse
-from flask import render_template
+from flask import render_template, send_from_directory
 from sqlalchemy.orm import class_mapper
 
 app = app_config.get_app()
@@ -24,6 +24,11 @@ def model_to_dict(obj):
 @app.route("/")
 def index():
     return render_template("index.html"), 200
+
+
+@app.route('/<path:path>')
+def serve_static(path):
+    return send_from_directory('static/dist', path)
 
 
 class Rooms(Resource):
