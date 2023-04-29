@@ -17,7 +17,7 @@ class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nick = db.Column(db.String(50), nullable=False)
     content = db.Column(db.Text, nullable=False)
-    time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    time = db.Column(db.DateTime, nullable=False, default=datetime.now)
     room_id = db.Column(db.Integer, db.ForeignKey('rooms.id'), nullable=False)
     room = db.relationship('Room', backref=db.backref('messages', lazy=True))
 

@@ -10,7 +10,7 @@
       <label for="nick-input" class="whtxt">Nick</label>
       <input type="text" id="nick-input" v-model="nick" placeholder="enter nick"/>
     </div>
-    <div id="messagelist">
+    <div id="messagelist" ref="msglist">
       <message-row v-for="message in messages" :key="message.id" :content="message.content"
         :nick="message.nick" :timestamp="message.time"/>
     </div>
@@ -46,7 +46,7 @@ export default {
   
   methods: {
     getRooms() {
-      axios.get('http://localhost:80/api/rooms')
+      axios.get('/api/rooms')
         .then(response => {
           this.rooms = response.data
         }).catch(error => {
@@ -54,9 +54,15 @@ export default {
         })
     },
     getMessages() {
-      axios.get(`http://localhost:80/api/messages/${this.room_id}`)
+      const old_len = this.messages.length
+      axios.get(`/api/messages/${this.room_id}`)
         .then(response => {
           this.messages = response.data
+          if (this.messages.length != old_len) {
+            setTimeout(() => {
+              this.$refs.msglist.scrollTop = this.$refs.msglist.scrollHeight
+            }, 100)
+          }
         }).catch(error => {
           console.log(error)
         })
@@ -68,7 +74,7 @@ export default {
     },
     sendMessage() {
       if (this.prompt.trim().length > 0) {
-        axios.post(`http://localhost:80/api/messages/${this.room_id}`, {
+        axios.post(`/api/messages/${this.room_id}`, {
           nick: this.nick,
           content: this.prompt
         })
