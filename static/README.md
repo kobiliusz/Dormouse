@@ -1,4 +1,4 @@
-# static
+# Dormouse - frontend
 
 ## Project setup
 ```
