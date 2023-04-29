@@ -28,6 +28,7 @@ def index():
 
 class Rooms(Resource):
     def get(self):
+        db.remove_old_messages()
         return [model_to_dict(room) for room in db.get_rooms()], 200
 
 

@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+from datetime import datetime, timedelta
 import app_config, rooms
 
 app = app_config.get_app()
@@ -32,6 +32,12 @@ def get_messages_for_room(id_room):
 
 def store_message(nick, content, room_id):
     db.session.add(Message(nick=nick, content=content, room_id=room_id))
+    db.session.commit()
+
+
+def remove_old_messages():
+    db.session.query(Message)\
+        .filter(Message.time <= datetime.now() - timedelta(days=1)).delete()
     db.session.commit()
 
 
