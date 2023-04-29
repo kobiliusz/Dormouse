@@ -1,6 +1,6 @@
 <template>
 
-<div>
+<div class="msg">
     <span class="msg-header">
         {{ getFormattedDate() }} | {{ nick }}
     </span>
@@ -21,7 +21,7 @@ export default {
 
     methods: {
         getFormattedDate() {
-            const date = new Date(this.timestamp)
+            const date = new Date(this.timestamp*1000)
             const hours = date.getHours().toString().padStart(2, '0');
             const minutes = date.getMinutes().toString().padStart(2, '0')
             const seconds = date.getSeconds().toString().padStart(2, '0')
@@ -33,5 +33,11 @@ export default {
 
 </script>
 <style>
-
+    .msg-header {
+        font-weight: bold;
+        margin-right: 7px;
+    }
+    .msg {
+        padding-bottom: 7px;
+    }
 </style>
