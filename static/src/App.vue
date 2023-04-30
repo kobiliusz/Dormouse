@@ -60,7 +60,7 @@ export default {
       axios.get(`/api/messages/${this.room_id}`)
         .then(response => {
           this.messages = response.data
-          if (this.messages.length != old_len) {
+          if (this.messages.length > old_len) {
             setTimeout(() => {
               this.$refs.msglist.scrollTop = this.$refs.msglist.scrollHeight
             }, 100)
