@@ -1,4 +1,4 @@
-import abc, re, html
+import abc, re, html, emojis
 
 
 class AbstractMessageHandler(metaclass=abc.ABCMeta):
@@ -30,10 +30,20 @@ class StripHandler(AbstractMessageHandler):
         return message.strip()
 
 
+class EmojiHandler(AbstractMessageHandler):
+
+    def handle(self, message):
+        for emoji_ascii in emojis.emoji_dict:
+            message = re.sub(r'(?:^|\s)' + re.escape(emoji_ascii),
+                             emojis.emoji_dict[emoji_ascii], message)
+        return message
+
+
 def get_list():
 
     return [
         StripHandler(),
+        EmojiHandler(),
         EscapeHandler(),
         LinkHandler()
     ]
