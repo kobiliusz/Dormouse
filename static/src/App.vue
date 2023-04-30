@@ -40,7 +40,8 @@ export default {
       room_id: 1,
       messages: [],
       nick: '',
-      prompt: ''
+      prompt: '',
+      new_msgs: 0,
     }
   },
   
@@ -62,6 +63,10 @@ export default {
             setTimeout(() => {
               this.$refs.msglist.scrollTop = this.$refs.msglist.scrollHeight
             }, 100)
+            if (document.hidden) {
+              this.new_msgs += this.messages.length - old_len
+              this.setFaviconBadge()
+            }
           }
         }).catch(error => {
           console.log(error)
@@ -88,13 +93,48 @@ export default {
           })
       }
     },
+    setFaviconBadge() {
+      var canvas = document.createElement("canvas")
+      canvas.width = 16
+      canvas.height = 16
+      var ctx = canvas.getContext("2d")
+      if (this.new_msgs) {
+        ctx.fillStyle = "red"
+      } else {
+        ctx.fillStyle = "rgb(34,163,77)"
+      }
+      ctx.beginPath()
+      ctx.arc(8, 8, 7, 0, Math.PI * 2, false)
+      ctx.fill()
+      if (this.new_msgs) {
+        ctx.fillStyle = "white"
+        ctx.font = "bold 10px sans-serif"
+        ctx.fillText(this.new_msgs, 6, 11)
+      }
+      var link = document.querySelector("link[rel~='shortcut icon']")
+      if (!link) {
+        link = document.createElement("link")
+        link.rel = "shortcut icon"
+        document.head.appendChild(link)
+      }
+      link.type = "image/x-icon"
+      link.href = canvas.toDataURL()
+    },
+    visChanged () {
+      if (document.visibilityState === "visible") {
+        this.new_msgs = 0
+        this.setFaviconBadge()
+      } 
+    },
     
   },
 
   mounted() {
+    this.setFaviconBadge()
     this.getRooms()
     this.getMessages()
     setInterval(this.getMessages, 1000)
+    document.addEventListener("visibilitychange", this.visChanged)
   },
 
 }
@@ -125,7 +165,7 @@ export default {
     left: 0;
     width: 100%;
     height: 40px;
-    background-color: #22a34d;
+    background-color: rgb(34, 163, 77);
   }
   #bottom-content {
     padding-top: 10px;
