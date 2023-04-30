@@ -8,13 +8,13 @@ class AbstractMessageHandler(metaclass=abc.ABCMeta):
 
 
 class LinkHandler(AbstractMessageHandler):
-    url_re = "^https?:\\/\\/(?:www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\." \
-             "[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$"
+    url_re = "https?:\\/\\/(?:www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\." \
+             "[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)"
 
     def handle(self, message):
         links = set(re.findall(self.url_re, message))
         for link in links:
-            message = message.replace(link, '<a href="{}">{}</a>'.format(link, link))
+            message = message.replace(link, '<a href="{}" target="_blank">{}</a>'.format(link, link))
         return message
 
 

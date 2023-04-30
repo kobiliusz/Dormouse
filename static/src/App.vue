@@ -3,7 +3,7 @@
     <div id="topbar">
       <h1 class="whtxt">Dormouse</h1>
       <label for="room-list" class="whtxt">Room</label>
-      <select v-model="room_id" name="room-list" id="room-list" @change="getMessages()">
+      <select v-model="room_id" name="room-list" id="room-list" @change="getMessages">
         <option v-for="room in rooms" :key="room.id"
           :value="room.id">{{ room.name }}</option>
       </select>
@@ -18,8 +18,8 @@
       <div id="bottom-content">
         <label for="content-input" class="whtxt">Message</label>
         <input type="text" id="content-input" v-model="prompt" placeholder="enter message"
-          @keydown="enterMessage($event)" :disabled="!nick"/>
-        <button id="send-button" :disabled="!nick || !prompt" @click="sendMessage()">Send</button>
+          @keydown="enterMessage" :disabled="!nick"/>
+        <button id="send-button" :disabled="!nick || !prompt" @click="sendMessage">Send</button>
       </div>
     </div>
   </div>

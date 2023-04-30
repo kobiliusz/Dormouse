@@ -4,8 +4,8 @@
     <span class="msg-header">
         {{ getFormattedDate() }} | {{ nick }}
     </span>
-    <span class="msg-content">
-        {{ content }}
+    <span class="msg-content" v-html="content">
+        
     </span>
 </div>
 
@@ -40,4 +40,12 @@ export default {
     .msg {
         padding-bottom: 7px;
     }
+    a {
+        text-decoration: none;
+        color: #d79a00;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+
 </style>
