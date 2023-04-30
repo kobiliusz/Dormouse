@@ -86,7 +86,7 @@ export default {
           .then(response => {
             console.log(response.data)
             this.prompt = ''
-            this.getMessages()
+            setTimeout(this.getMessages, 150)
           }).catch(error => {
             console.log(error)
             this.prompt = ''
