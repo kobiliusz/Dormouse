@@ -18,7 +18,7 @@
       <div id="bottom-content">
         <label for="content-input" class="whtxt">Message</label>
         <input type="text" id="content-input" v-model="prompt" placeholder="enter message"
-          @keydown="enterMessage" :disabled="!nick"/>
+          @keydown="enterMessage" :disabled="!nick" ref="contentinput"/>
         <button id="send-button" :disabled="!nick || !prompt" @click="sendMessage">Send</button>
       </div>
     </div>
@@ -124,6 +124,7 @@ export default {
       if (document.visibilityState === "visible") {
         this.new_msgs = 0
         this.setFaviconBadge()
+        this.$refs.contentinput.focus()
       } 
     },
     
