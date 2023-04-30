@@ -144,6 +144,8 @@ export default {
 <style>
   body {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: greyscale;
   }
   #topbar {
     position: fixed;
