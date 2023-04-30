@@ -187,7 +187,7 @@ export default {
     padding-left: 15px;
   }
   #content-input {
-    width: 350px;
+    width: 75%;
   }
   #nick-input {
     width: 150px;
