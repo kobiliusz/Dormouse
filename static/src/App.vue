@@ -8,7 +8,8 @@
           :value="room.id">{{ room.name }}</option>
       </select>
       <label for="nick-input" class="whtxt">Nick</label>
-      <input type="text" id="nick-input" v-model="nick" placeholder="enter nick"/>
+      <input type="text" id="nick-input" v-model="nick" 
+        placeholder="enter nick" @change="storeNick"/>
     </div>
     <div id="messagelist" ref="msglist">
       <message-row v-for="message in messages" :key="message.id" :content="message.content"
@@ -39,7 +40,7 @@ export default {
       rooms: [],
       room_id: 1,
       messages: [],
-      nick: '',
+      nick: localStorage.getItem('nick'),
       prompt: '',
       new_msgs: 0,
     }
@@ -127,6 +128,9 @@ export default {
         this.$refs.contentinput.focus()
       } 
     },
+    storeNick () {
+      localStorage.setItem('nick', this.nick)
+    }
     
   },
 
