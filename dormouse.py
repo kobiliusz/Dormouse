@@ -57,6 +57,7 @@ class Messages(Resource):
 api.add_resource(Rooms, '/api/rooms')
 api.add_resource(Messages, '/api/messages/<int:room_id>')
 if __name__ == '__main__':
+    db.remove_old_messages()
     scheduler.add_job(id="Remove old messages", func=db.remove_old_messages,
                       trigger='interval', hours=1)
     scheduler.start()
