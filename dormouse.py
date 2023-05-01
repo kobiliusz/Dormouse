@@ -6,6 +6,7 @@ from sqlalchemy.orm import class_mapper
 
 app = app_config.get_app()
 api = Api(app)
+scheduler = APScheduler()
 
 
 def model_to_dict(obj):
@@ -55,7 +56,6 @@ class Messages(Resource):
 
 api.add_resource(Rooms, '/api/rooms')
 api.add_resource(Messages, '/api/messages/<int:room_id>')
-scheduler = APScheduler()
 if __name__ == '__main__':
     scheduler.add_job(id="Remove old messages", func=db.remove_old_messages,
                       trigger='interval', minutes=1)
