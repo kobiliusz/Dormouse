@@ -162,7 +162,7 @@ export default {
   #messagelist {
     position: fixed;
     top: 125px;
-    width: 100%;
+    width: 97%;
     bottom: 40px;
     overflow: auto;
   }
