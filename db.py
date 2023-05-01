@@ -23,11 +23,11 @@ class Message(db.Model):
 
 
 def get_rooms():
-    return db.session.query(Room).all()
+    return db.session.query(Room).order_by(Room.id)
 
 
 def get_messages_for_room(id_room):
-    return db.session.query(Message).filter_by(room_id=id_room).all()
+    return db.session.query(Message).filter_by(room_id=id_room).order_by(Message.time)
 
 
 def store_message(nick, content, room_id):
