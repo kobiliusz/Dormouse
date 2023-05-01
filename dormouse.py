@@ -58,6 +58,6 @@ api.add_resource(Rooms, '/api/rooms')
 api.add_resource(Messages, '/api/messages/<int:room_id>')
 if __name__ == '__main__':
     scheduler.add_job(id="Remove old messages", func=db.remove_old_messages,
-                      trigger='interval', minutes=1)
+                      trigger='interval', hours=1)
     scheduler.start()
     waitress.serve(app, host='0.0.0.0', port=80)
