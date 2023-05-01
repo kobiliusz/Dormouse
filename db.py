@@ -36,9 +36,10 @@ def store_message(nick, content, room_id):
 
 
 def remove_old_messages():
-    db.session.query(Message)\
-        .filter(Message.time <= datetime.now() - timedelta(days=1)).delete()
-    db.session.commit()
+    with app.app_context():
+        db.session.query(Message)\
+            .filter(Message.time <= datetime.now() - timedelta(days=1)).delete()
+        db.session.commit()
 
 
 if __name__ == '__main__':

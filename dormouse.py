@@ -1,7 +1,6 @@
-import datetime
-
-import app_config, db, waitress, message_handlers
+import app_config, datetime, db, waitress, message_handlers
 from flask_restful import Api, Resource, reqparse
+from flask_apscheduler import APScheduler
 from flask import render_template, send_from_directory
 from sqlalchemy.orm import class_mapper
 
@@ -33,7 +32,6 @@ def serve_static(path):
 
 class Rooms(Resource):
     def get(self):
-        db.remove_old_messages()
         return [model_to_dict(room) for room in db.get_rooms()], 200
 
 
@@ -57,5 +55,9 @@ class Messages(Resource):
 
 api.add_resource(Rooms, '/api/rooms')
 api.add_resource(Messages, '/api/messages/<int:room_id>')
+scheduler = APScheduler()
 if __name__ == '__main__':
+    scheduler.add_job(id="Remove old messages", func=db.remove_old_messages,
+                      trigger='interval', minutes=1)
+    scheduler.start()
     waitress.serve(app, host='0.0.0.0', port=80)
