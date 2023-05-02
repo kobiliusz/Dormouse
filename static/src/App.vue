@@ -158,6 +158,7 @@ export default {
     width: 100%;
     height: 125px;
     background-color: #22a34d;
+    border-radius: 10px;
   }
   #messagelist {
     position: fixed;
@@ -173,9 +174,10 @@ export default {
     width: 100%;
     height: 40px;
     background-color: rgb(34, 163, 77);
+    border-radius: 10px;
   }
   #bottom-content {
-    padding-top: 10px;
+    margin-top: 8px;
   }
   .whtxt {
     color: #fff;
@@ -185,10 +187,12 @@ export default {
     padding-right: 7px;
   }
   h1 {
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     padding-left: 15px;
   }
   #content-input {
     width: 75%;
+    border: none;
   }
   #nick-input {
     width: 150px;
@@ -201,5 +205,18 @@ export default {
     top: 12px;
     right: 12px;
     border: solid 1px;
+  }
+  #send-button {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin-left: 10px;
+    padding: 5px;
+    background-color: #4fda7d;
+    color: #fff;
+    box-shadow: none;
+    border: none;
+    border-radius: 5px;
+  }
+  #send-button:disabled {
+    background-color: #bbb;
   }
 </style>
