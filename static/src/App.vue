@@ -20,7 +20,7 @@
       <div id="bottom-content">
         <label for="content-input" class="whtxt">Message</label>
         <input type="text" id="content-input" v-model="prompt" placeholder="enter message"
-          @keydown="enterMessage" :disabled="!nick" ref="contentinput"/>
+          @keypress.enter="sendMessage" :disabled="!nick" ref="contentinput"/>
         <button id="send-button" :disabled="!nick || !prompt" @click="sendMessage">Send</button>
       </div>
     </div>
@@ -66,7 +66,7 @@ export default {
           if (this.messages.length > old_len) {
             setTimeout(() => {
               this.$refs.msglist.scrollTop = this.$refs.msglist.scrollHeight
-            }, 100)
+            }, 10)
             if (document.hidden) {
               this.new_msgs += this.messages.length - old_len
               this.setFaviconBadge()
@@ -75,11 +75,6 @@ export default {
         }).catch(error => {
           console.log(error)
         })
-    },
-    enterMessage(event) {
-      if (event.keyCode == 13) {
-        this.sendMessage()
-      }
     },
     sendMessage() {
       if (this.prompt.trim().length > 0) {
