@@ -31,13 +31,15 @@
 import axios from "axios";
 import MessageRow from "./components/MessageRow.vue";
 export default {
-  
+
   components: {
     MessageRow,
   },
 
   data() {
     return {
+      res_path: '', //production
+      //res_path: 'http://localhost:80', //development
       rooms: [],
       room_id: 1,
       messages: [],
@@ -49,7 +51,7 @@ export default {
   
   methods: {
     getRooms() {
-      axios.get('/api/rooms')
+      axios.get(`${this.res_path}/api/rooms`)
         .then(response => {
           this.rooms = response.data
         }).catch(error => {
@@ -58,7 +60,7 @@ export default {
     },
     getMessages() {
       const old_len = this.messages.length
-      axios.get(`/api/messages/${this.room_id}`)
+      axios.get(`${this.res_path}/api/messages/${this.room_id}`)
         .then(response => {
           this.messages = response.data
           if (this.messages.length > old_len) {
@@ -81,7 +83,7 @@ export default {
     },
     sendMessage() {
       if (this.prompt.trim().length > 0) {
-        axios.post(`/api/messages/${this.room_id}`, {
+        axios.post(`${this.res_path}/api/messages/${this.room_id}`, {
           nick: this.nick,
           content: this.prompt
         })
